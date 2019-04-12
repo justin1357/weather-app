@@ -1,22 +1,25 @@
 import React from "react";
 import axios from "./axios";
+import Current from "./current";
 import secrets from "./secrets.js";
+import { connect } from "react-redux";
+import { getForecast } from "./actions";
 
-export default class App extends React.Component {
+class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {};
     }
+
     componentDidMount() {
-        console.log(secrets);
+        this.props.dispatch(getForecast());
         const apiKey = secrets.apiKey;
-        console.log(apiKey);
         axios
             .get(
                 `https://api.openweathermap.org/data/2.5/weather?q=berlin&APPID=${apiKey}&units=metric`
             )
             .then(data => {
-                console.log(data.data);
+                console.log("Current", data.data);
                 this.setState({
                     result: data.data
                 });
@@ -26,20 +29,15 @@ export default class App extends React.Component {
             });
     }
     render() {
-        console.log("state", this.state);
-        let weather = this.state.result;
-        if (!weather) {
-            return null;
-        }
         return (
             <div>
-                <p>Weather app</p>
-                <h1>{weather.name}</h1>
-                <p>Current Temp: {weather.main.temp}</p>
-                <p>Max Temp: {weather.main.temp_max}</p>
-                <p>Min Temp: {weather.main.temp_min}</p>
-                <p>Humidity: {weather.main.humidity}%</p>
+                <Current weather={this.state.result} />
             </div>
         );
     }
 }
+const mapStateToProps = state => {
+    return {};
+};
+
+export default connect(mapStateToProps)(App);
