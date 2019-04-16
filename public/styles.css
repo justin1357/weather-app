@@ -1,0 +1,14 @@
+.results {
+    position: absolute;
+    right: 85px;
+    top: 50px;
+    background-color: white;
+    z-index: 10000;
+    width: 300px;
+}
+#search {
+    width: 300px;
+}
+.hover {
+    background-color: grey;
+}
