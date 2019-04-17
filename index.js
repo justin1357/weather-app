@@ -70,7 +70,7 @@ app.post("/get-latandlong", (req, res) => {
         .get(
             `https://maps.googleapis.com/maps/api/place/details/json?placeid=${
                 req.body.place_id
-            }&key=${creds.weatherAppKey}&sessiontoken=${
+            }&fields=geometry&key=${creds.weatherAppKey}&sessiontoken=${
                 req.session.user_string
             }`
         )
@@ -88,7 +88,6 @@ app.get("*", function(req, res) {
     uid(18, function(err, string) {
         if (err) throw err;
         req.session.user_string = string;
-        console.log("uid string", string);
     });
     res.sendFile(__dirname + "/index.html");
 });
